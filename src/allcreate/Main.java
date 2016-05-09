@@ -11,11 +11,10 @@ package allcreate;
  */
 public class Main extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Main
-     */
+    private Settings actualSettings;
     public Main() {
         initComponents();
+        actualSettings = new Settings();
     }
 
     /**
@@ -38,7 +37,7 @@ public class Main extends javax.swing.JFrame {
         jButton_Disconnect = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem_Options = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -107,8 +106,13 @@ public class Main extends javax.swing.JFrame {
 
         jMenu1.setText("File");
 
-        jMenuItem1.setText("Ustawienia");
-        jMenu1.add(jMenuItem1);
+        jMenuItem_Options.setText("Ustawienia");
+        jMenuItem_Options.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_OptionsActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem_Options);
 
         jMenuItem3.setText("Wyjdź");
         jMenu1.add(jMenuItem3);
@@ -140,6 +144,12 @@ public class Main extends javax.swing.JFrame {
     private void jButton_ConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ConnectActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton_ConnectActionPerformed
+
+    private void jMenuItem_OptionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_OptionsActionPerformed
+        SettingsWindow ow = new SettingsWindow(actualSettings);
+        ow.setVisible(true);
+        actualSettings.getPortNr();
+    }//GEN-LAST:event_jMenuItem_OptionsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -186,8 +196,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem_Options;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField_Password;
     // End of variables declaration//GEN-END:variables
