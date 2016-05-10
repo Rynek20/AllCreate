@@ -5,6 +5,11 @@
  */
 package allcreate;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author adm
@@ -12,9 +17,11 @@ package allcreate;
 public class Main extends javax.swing.JFrame {
 
     private Settings actualSettings;
+    private FTPConnector ftpConnector;
     public Main() {
         initComponents();
         actualSettings = new Settings();
+        ftpConnector = null;
     }
 
     /**
@@ -142,7 +149,13 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_ConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ConnectActionPerformed
-        // TODO add your handling code here:
+        try {
+            ftpConnector = new FTPConnector(actualSettings);
+            ftpConnector.connect(JTextField_Login.getText(), Arrays.toString(jPasswordField_Password.getPassword()));
+            //ftpConnector.disconnect();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton_ConnectActionPerformed
 
     private void jMenuItem_OptionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_OptionsActionPerformed
