@@ -85,7 +85,6 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="JTextField_Login" max="32767" attributes="0"/>
-              <Component id="jPasswordField_Password" alignment="0" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -103,6 +102,7 @@
                   </Group>
                   <EmptySpace min="0" pref="43" max="32767" attributes="0"/>
               </Group>
+              <Component id="jTextField_Password" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -115,7 +115,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jPasswordField_Password" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextField_Password" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jButton_Connect" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -143,8 +143,6 @@
             <Property name="text" type="java.lang.String" value="Has&#x142;o:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JPasswordField" name="jPasswordField_Password">
-        </Component>
         <Component class="javax.swing.JButton" name="jButton_Connect">
           <Properties>
             <Property name="text" type="java.lang.String" value="Po&#x142;&#x105;cz"/>
@@ -167,6 +165,8 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Roz&#x142;&#x105;cz"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="jTextField_Password">
         </Component>
       </SubComponents>
     </Container>

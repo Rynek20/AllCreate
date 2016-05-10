@@ -37,11 +37,11 @@ public class Main extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         JTextField_Login = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jPasswordField_Password = new javax.swing.JPasswordField();
         jButton_Connect = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         StatusLabel = new javax.swing.JLabel();
         jButton_Disconnect = new javax.swing.JButton();
+        jTextField_Password = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem_Options = new javax.swing.JMenuItem();
@@ -75,7 +75,6 @@ public class Main extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(JTextField_Login)
-            .addComponent(jPasswordField_Password)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
@@ -89,6 +88,7 @@ public class Main extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(StatusLabel)))
                 .addGap(0, 43, Short.MAX_VALUE))
+            .addComponent(jTextField_Password)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,7 +100,7 @@ public class Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField_Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField_Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_Connect)
@@ -151,7 +151,7 @@ public class Main extends javax.swing.JFrame {
     private void jButton_ConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ConnectActionPerformed
         try {
             ftpConnector = new FTPConnector(actualSettings);
-            ftpConnector.connect(JTextField_Login.getText(), Arrays.toString(jPasswordField_Password.getPassword()));
+            ftpConnector.connect(JTextField_Login.getText(),jTextField_Password.getText());
             //ftpConnector.disconnect();
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -212,6 +212,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem_Options;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField_Password;
+    private javax.swing.JTextField jTextField_Password;
     // End of variables declaration//GEN-END:variables
 }

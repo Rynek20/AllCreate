@@ -34,8 +34,7 @@ public class FTPConnector {
 
     public boolean connect(String login, String password) throws IOException {
         try {
-            password = password.replaceAll(",", "");
-            password = password.replaceAll(" ", "");
+
             ftpClient.connect(server, port);
             showServerReply();
             boolean loginReply = ftpClient.login(login, password);
@@ -43,7 +42,7 @@ public class FTPConnector {
             if (loginReply) {
                 status = Status.CONNECTED;
                 ftpClient.enterLocalPassiveMode();
-                ftpClient.changeWorkingDirectory("/kamilr");
+                //ftpClient.changeWorkingDirectory("/kamilr");
                 System.out.println("Current directory is " + ftpClient.printWorkingDirectory());
                 FTPFile[] ftpFiles = ftpClient.listFiles();
                 if (ftpFiles != null && ftpFiles.length > 0) {
