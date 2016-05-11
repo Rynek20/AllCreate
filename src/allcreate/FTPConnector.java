@@ -36,24 +36,11 @@ public class FTPConnector {
 
             ftpClient.connect(server, port);
             showServerReply();
-            boolean loginReply = ftpClient.login(login, password);
+            boolean Reply = ftpClient.login(login, password);
             showServerReply();
-            if (loginReply) {
-                status = Status.CONNECTED;
+            if (Reply) {
                 ftpClient.enterLocalPassiveMode();
-                //ftpClient.changeWorkingDirectory("/kamilr");
-                System.out.println("Current directory is " + ftpClient.printWorkingDirectory());
-                FTPFile[] ftpFiles = ftpClient.listFiles();
-                if (ftpFiles != null && ftpFiles.length > 0) {
-                    for (FTPFile file : ftpFiles) {
-                        if (!file.isFile()) {
-                            continue;
-                        }
-                        System.out.println("File is " + file.getName());
-                    }
-                }
-                ftpClient.logout();
-                ftpClient.disconnect();
+                status = Status.CONNECTED;
                 return true;
             } else {
                 return false;
@@ -66,6 +53,7 @@ public class FTPConnector {
 
     public boolean disconnect() {
         try {
+            ftpClient.logout();
             ftpClient.disconnect();
         } catch (IOException ex) {
             Logger.getLogger(FTPConnector.class.getName()).log(Level.SEVERE, null, ex);
