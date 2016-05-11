@@ -8,32 +8,46 @@ import java.util.logging.Logger;
 
 public class Timer extends Thread {
 
-    private int waitTime;
+    private final int waitTime;
     private boolean active;
-    private ArrayList<Action> actionsList;
+    private boolean destroy;
+    private final ArrayList<Action> actionsList;
 
     public Timer() {
-        this.waitTime = 500;
-        actionsList = new ArrayList<>();
+        this(500);
     }
 
     public Timer(int waitTime) {
         this.waitTime = waitTime;
         actionsList = new ArrayList<>();
-    }
-    
-    public synchronized void activate(){
-        active = true;
-        this.start();
+        destroy = false;
     }
 
-    public synchronized boolean activateMethod(Object object, String methodName) {
+    public void activate() {
+        active = true;
+        if (!this.isAlive()) {
+            this.start();
+        }
+    }
+
+    public void deactivate() {
+        active = false;
+    }
+
+    public void destroyTimer() {
+        destroy = true;
+    }
+
+    public boolean activateMethod(Object object, String methodName) {
+
         try {
-            Method method = object.getClass().getMethod(methodName);
-            Action action = new Action();
-            action.setObject(object);
-            action.setMethodName(methodName);
-            actionsList.add(action);
+            synchronized (actionsList) {
+                Method method = object.getClass().getMethod(methodName);
+                Action action = new Action();
+                action.setObject(object);
+                action.setMethodName(methodName);
+                actionsList.add(action);
+            }
             return true;
         } catch (NoSuchMethodException | SecurityException ex) {
             Logger.getLogger(Timer.class.getName()).log(Level.SEVERE, null, ex);
@@ -42,21 +56,31 @@ public class Timer extends Thread {
     }
 
     @Override
-    public synchronized void run() {
-        while (active) {
-            try {
-                this.wait(waitTime);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Timer.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            actionsList.stream().forEach((_item) -> {
+    public void run() {
+        while (true) {
+
+            while (active) {
                 try {
-                    Method method = _item.getObject().getClass().getMethod(_item.getMethodName());
-                    method.invoke(_item.getObject());
-                } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                    synchronized (this) {
+                        this.wait(waitTime);
+                    }
+                } catch (InterruptedException ex) {
                     Logger.getLogger(Timer.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            });
+                synchronized (actionsList) {
+                    actionsList.stream().forEach((_item) -> {
+                        try {
+                            Method method = _item.getObject().getClass().getMethod(_item.getMethodName());
+                            method.invoke(_item.getObject());
+                        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                            Logger.getLogger(Timer.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                }
+            }
+            if (destroy) {
+                break;
+            }
         }
     }
 
