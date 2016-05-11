@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
 
 public class FTPConnector {
 
@@ -61,7 +62,23 @@ public class FTPConnector {
         }
         return true;
     }
-
+    public String[] getStructure(){
+        if(ftpClient.isConnected()){
+            String[] result;
+            try {
+                FTPFile[] files = ftpClient.listFiles();
+                result = new String[files.length];
+                for(int i=0;i<files.length;i++){
+                    result[i]=files[i].getName();
+                }
+                return result;
+            } catch (IOException ex) {
+                Logger.getLogger(FTPConnector.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        return null;
+    }
     private void showServerReply() {
         String[] replies = ftpClient.getReplyStrings();
         if (replies != null && replies.length > 0) {
