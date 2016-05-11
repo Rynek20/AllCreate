@@ -5,10 +5,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.net.ftp.FTPReply;
 
 public class FTPConnector {
-
+    //For windows 7 firewall can bloock ftp, run in cmd: netsh advfirewall set global StatefulFtp disable
     public enum Status {
 
         CONNECTED, DISCONNECTED
