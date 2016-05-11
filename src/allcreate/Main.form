@@ -90,8 +90,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="JTextField_Login" alignment="0" pref="160" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
@@ -102,11 +101,14 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="StatusLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="StatusLabel" min="-2" pref="187" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jPasswordField" alignment="0" max="32767" attributes="0"/>
+                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="jPasswordField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="JTextField_Login" alignment="0" pref="170" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace min="0" pref="78" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="10" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -178,9 +180,6 @@
           </Events>
         </Component>
         <Component class="javax.swing.JPasswordField" name="jPasswordField">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="MSstar23"/>
-          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -193,7 +192,7 @@
       <SubComponents>
         <Component class="javax.swing.JTextArea" name="jTextArea1">
           <Properties>
-            <Property name="columns" type="int" value="20"/>
+            <Property name="columns" type="int" value="1"/>
             <Property name="rows" type="int" value="5"/>
           </Properties>
         </Component>

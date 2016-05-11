@@ -18,22 +18,34 @@ public class Main extends javax.swing.JFrame {
     private final Settings actualSettings;
     private FTPConnector ftpConnector;
     private Timer timer;
+
     public Main() {
         initComponents();
         actualSettings = new Settings();
         ftpConnector = null;
         runTimer();
     }
-    private void runTimer(){
+
+    private void runTimer() {
         timer = new Timer(500);
         timer.activate();
         timer.activateMethod(this, "updateUI");
     }
-    public void updateUI(){
-        if(ftpConnector==null){
+
+    public void updateUI() {
+        if (ftpConnector == null) {
+            StatusLabel.setText("Brak połączenia");
+        } else {
+            if(ftpConnector.getStatus()==FTPConnector.Status.CONNECTED){
+                jButton_Connect.setEnabled(false);
+                jButton_Disconnect.setEnabled(true);
+                StatusLabel.setText("Połączono z "+actualSettings.getServerName());
+            }
+            if(ftpConnector.getStatus()==FTPConnector.Status.DISCONNECTED){
+                jButton_Connect.setEnabled(true);
+                jButton_Disconnect.setEnabled(false);
                 StatusLabel.setText("Brak połączenia");
-                }else{
-            StatusLabel.setText(ftpConnector.getStatus());
+            }
         }
     }
 
@@ -92,15 +104,12 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jPasswordField.setText("MSstar23");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(JTextField_Login, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
@@ -110,9 +119,11 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(StatusLabel))
-                    .addComponent(jPasswordField, javax.swing.GroupLayout.Alignment.LEADING))
-                .addGap(0, 78, Short.MAX_VALUE))
+                        .addComponent(StatusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPasswordField, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(JTextField_Login, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)))
+                .addGap(0, 10, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,7 +146,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(StatusLabel)))
         );
 
-        jTextArea1.setColumns(20);
+        jTextArea1.setColumns(1);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
@@ -183,7 +194,7 @@ public class Main extends javax.swing.JFrame {
     private void jButton_ConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ConnectActionPerformed
         try {
             ftpConnector = new FTPConnector(actualSettings);
-            ftpConnector.connect(JTextField_Login.getText(),String.valueOf(jPasswordField.getPassword()));
+            ftpConnector.connect(JTextField_Login.getText(), String.valueOf(jPasswordField.getPassword()));
             //ftpConnector.disconnect();
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -197,7 +208,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_OptionsActionPerformed
 
     private void jButton_DisconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_DisconnectActionPerformed
-        
+
     }//GEN-LAST:event_jButton_DisconnectActionPerformed
 
     /**

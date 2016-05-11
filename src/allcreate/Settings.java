@@ -9,7 +9,11 @@ package allcreate;
 public class Settings {
     private String serverName;
     private int portNr;
-
+    
+    public Settings(){
+        this.serverName = "kartalcarpets.home.pl";
+        this.portNr = 21;
+    }
     public String getServerName() {
         return serverName;
     }

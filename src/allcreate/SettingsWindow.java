@@ -17,6 +17,8 @@ public class SettingsWindow extends javax.swing.JDialog {
         initComponents();
         this.setModal(true);
         this.actualSettings = actualSettings;
+        jTextField_ServerName.setText(actualSettings.getServerName());
+        jTextField_Port.setText(String.valueOf(actualSettings.getPortNr()));
     }
 
     /**
@@ -41,10 +43,6 @@ public class SettingsWindow extends javax.swing.JDialog {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ustawienia FTP", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(102, 102, 102))); // NOI18N
 
         jLabel1.setText("Serwer:");
-
-        jTextField_ServerName.setText("kartalcarpets.home.pl");
-
-        jTextField_Port.setText("21");
 
         jLabel2.setText("Port:");
 
