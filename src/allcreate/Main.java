@@ -5,9 +5,14 @@
  */
 package allcreate;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
 /**
  *
@@ -24,6 +29,11 @@ public class Main extends javax.swing.JFrame {
         actualSettings = new Settings();
         ftpConnector = null;
         runTimer();
+        jTreeFTP.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent me) {
+                doMouseClicked(me);
+            }
+        });
     }
 
     private void runTimer() {
@@ -36,21 +46,33 @@ public class Main extends javax.swing.JFrame {
         if (ftpConnector == null) {
             StatusLabel.setText("Brak połączenia");
         } else {
-            if(ftpConnector.getStatus()==FTPConnector.Status.CONNECTED){
+            if (ftpConnector.getStatus() == FTPConnector.Status.CONNECTED) {
                 jButton_Connect.setEnabled(false);
                 jButton_Disconnect.setEnabled(true);
-                StatusLabel.setText("Połączono z "+actualSettings.getServerName());
+                StatusLabel.setText("Połączono z " + actualSettings.getServerName());
             }
-            if(ftpConnector.getStatus()==FTPConnector.Status.DISCONNECTED){
+            if (ftpConnector.getStatus() == FTPConnector.Status.DISCONNECTED) {
                 jButton_Connect.setEnabled(true);
                 jButton_Disconnect.setEnabled(false);
                 StatusLabel.setText("Brak połączenia");
             }
         }
     }
-    
-   
 
+    void doMouseClicked(MouseEvent me) {
+    TreePath tp = jTreeFTP.getPathForLocation(me.getX(), me.getY());
+    DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp.getLastPathComponent();
+    String path = tp.toString();
+    path = path.replace("/", "");
+    path = path.replaceAll(" ", "");
+    path = path.replaceAll(",", "/");
+    path = path.replace("[", "");
+    path = path.replace("]", "");
+
+    System.out.println(path);
+  }
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -197,7 +219,7 @@ public class Main extends javax.swing.JFrame {
         try {
             ftpConnector = new FTPConnector(actualSettings);
             ftpConnector.connect(JTextField_Login.getText(), String.valueOf(jPasswordField.getPassword()));
-            jTreeFTP.setModel(ftpConnector.getStructure());
+            jTreeFTP.setModel(new DefaultTreeModel(ftpConnector.getNode("/")));
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }

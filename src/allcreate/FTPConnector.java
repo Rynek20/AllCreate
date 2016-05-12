@@ -66,13 +66,13 @@ public class FTPConnector {
         return true;
     }
 
-    private DefaultMutableTreeNode checkFTPfolder(String path, String current){
+    private DefaultMutableTreeNode getAllNodes(String path, String current){
         DefaultMutableTreeNode node = new DefaultMutableTreeNode(current);
         try {
             FTPFile[] files = ftpClient.listFiles(path);
             for (int i = 0; i < files.length; i++) {
                 if(files[i].isDirectory()){
-                    node.add(checkFTPfolder(path+"/"+files[i].getName(), files[i].getName()));
+                    node.add(getAllNodes(path+"/"+files[i].getName(), files[i].getName()));
                 }else{
                     node.add(new DefaultMutableTreeNode(files[i].getName()));
                 }
@@ -84,9 +84,28 @@ public class FTPConnector {
         }
         return null;
     }
+    public DefaultMutableTreeNode getNode(String path){
+        String[] points = path.split("/");
+        if(points.length==0){
+            points = new String[1];
+            points[0]="/";
+        }
+        DefaultMutableTreeNode node = new DefaultMutableTreeNode(points[points.length-1]);
+        try {
+            FTPFile[] files = ftpClient.listFiles(path);
+            for (int i = 0; i < files.length; i++) {
+                node.add(new DefaultMutableTreeNode(files[i].getName()));
+            }
+            return node;
+            
+        } catch (IOException ex) {
+            Logger.getLogger(FTPConnector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     public DefaultTreeModel getStructure() {
         if (ftpClient.isConnected()) { 
-        return new DefaultTreeModel(checkFTPfolder("", "/"));    
+        return new DefaultTreeModel(getAllNodes("", "/"));    
         }
         return null;
     }
