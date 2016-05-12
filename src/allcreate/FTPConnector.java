@@ -3,13 +3,14 @@ package allcreate;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 
 public class FTPConnector {
 
     //For windows 7 firewall can bloock ftp, run in cmd: netsh advfirewall set global StatefulFtp disable
-
     public enum Status {
 
         CONNECTED, DISCONNECTED
@@ -64,26 +65,32 @@ public class FTPConnector {
         }
         return true;
     }
-    public String[] getStructure(){
-        if(ftpClient.isConnected()){
-            String[] result;
-            try {
-                FTPFile[] files = ftpClient.listFiles();
-                result = new String[files.length];
-                for(int i=0;i<files.length;i++){
-                    result[i]=files[i].getName();
-                    if(files[i].isDirectory()){
-                        result[i] = "[" + result[i] + "]";
-                    }
+
+    private DefaultMutableTreeNode checkFTPfolder(String path, String current){
+        DefaultMutableTreeNode node = new DefaultMutableTreeNode(current);
+        try {
+            FTPFile[] files = ftpClient.listFiles(path);
+            for (int i = 0; i < files.length; i++) {
+                if(files[i].isDirectory()){
+                    node.add(checkFTPfolder(path+"/"+files[i].getName(), files[i].getName()));
+                }else{
+                    node.add(new DefaultMutableTreeNode(files[i].getName()));
                 }
-                return result;
-            } catch (IOException ex) {
-                Logger.getLogger(FTPConnector.class.getName()).log(Level.SEVERE, null, ex);
             }
+            return node;
             
+        } catch (IOException ex) {
+            Logger.getLogger(FTPConnector.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
+    public DefaultTreeModel getStructure() {
+        if (ftpClient.isConnected()) { 
+        return new DefaultTreeModel(checkFTPfolder("", "/"));    
+        }
+        return null;
+    }
+
     private void showServerReply() {
         String[] replies = ftpClient.getReplyStrings();
         if (replies != null && replies.length > 0) {

@@ -48,6 +48,8 @@ public class Main extends javax.swing.JFrame {
             }
         }
     }
+    
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -67,8 +69,8 @@ public class Main extends javax.swing.JFrame {
         StatusLabel = new javax.swing.JLabel();
         jButton_Disconnect = new javax.swing.JButton();
         jPasswordField = new javax.swing.JPasswordField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea_FTPstructure = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTreeFTP = new javax.swing.JTree();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem_Options = new javax.swing.JMenuItem();
@@ -146,9 +148,9 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(StatusLabel)))
         );
 
-        jTextArea_FTPstructure.setColumns(1);
-        jTextArea_FTPstructure.setRows(5);
-        jScrollPane1.setViewportView(jTextArea_FTPstructure);
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("FTP");
+        jTreeFTP.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jScrollPane2.setViewportView(jTreeFTP);
 
         jMenu1.setText("File");
 
@@ -173,9 +175,9 @@ public class Main extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
                 .addContainerGap(361, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -184,8 +186,8 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -195,12 +197,7 @@ public class Main extends javax.swing.JFrame {
         try {
             ftpConnector = new FTPConnector(actualSettings);
             ftpConnector.connect(JTextField_Login.getText(), String.valueOf(jPasswordField.getPassword()));
-            String[] structure = ftpConnector.getStructure();
-            StringBuilder sb = new StringBuilder();
-            for(String s : structure){
-                sb.append(s).append("\n");
-            }
-            jTextArea_FTPstructure.setText(sb.toString());
+            jTreeFTP.setModel(ftpConnector.getStructure());
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -267,7 +264,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem_Options;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea_FTPstructure;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTree jTreeFTP;
     // End of variables declaration//GEN-END:variables
 }
