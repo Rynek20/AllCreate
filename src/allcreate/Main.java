@@ -68,7 +68,7 @@ public class Main extends javax.swing.JFrame {
         jButton_Disconnect = new javax.swing.JButton();
         jPasswordField = new javax.swing.JPasswordField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTextArea_FTPstructure = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem_Options = new javax.swing.JMenuItem();
@@ -146,9 +146,9 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(StatusLabel)))
         );
 
-        jTextArea1.setColumns(1);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        jTextArea_FTPstructure.setColumns(1);
+        jTextArea_FTPstructure.setRows(5);
+        jScrollPane1.setViewportView(jTextArea_FTPstructure);
 
         jMenu1.setText("File");
 
@@ -195,7 +195,12 @@ public class Main extends javax.swing.JFrame {
         try {
             ftpConnector = new FTPConnector(actualSettings);
             ftpConnector.connect(JTextField_Login.getText(), String.valueOf(jPasswordField.getPassword()));
-            //ftpConnector.disconnect();
+            String[] structure = ftpConnector.getStructure();
+            StringBuilder sb = new StringBuilder();
+            for(String s : structure){
+                sb.append(s).append("\n");
+            }
+            jTextArea_FTPstructure.setText(sb.toString());
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -208,7 +213,9 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem_OptionsActionPerformed
 
     private void jButton_DisconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_DisconnectActionPerformed
-
+        jButton_Connect.setEnabled(true);
+        jButton_Disconnect.setEnabled(false);
+        ftpConnector.disconnect();
     }//GEN-LAST:event_jButton_DisconnectActionPerformed
 
     /**
@@ -261,6 +268,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea_FTPstructure;
     // End of variables declaration//GEN-END:variables
 }

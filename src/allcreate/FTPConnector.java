@@ -57,6 +57,8 @@ public class FTPConnector {
         try {
             ftpClient.logout();
             ftpClient.disconnect();
+            this.status = Status.DISCONNECTED;
+            showServerReply();
         } catch (IOException ex) {
             Logger.getLogger(FTPConnector.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -70,6 +72,9 @@ public class FTPConnector {
                 result = new String[files.length];
                 for(int i=0;i<files.length;i++){
                     result[i]=files[i].getName();
+                    if(files[i].isDirectory()){
+                        result[i] = "[" + result[i] + "]";
+                    }
                 }
                 return result;
             } catch (IOException ex) {
