@@ -93,6 +93,9 @@ public class FTPConnector {
         DefaultMutableTreeNode node = new DefaultMutableTreeNode(points[points.length-1]);
         try {
             FTPFile[] files = ftpClient.listFiles(path);
+            if(files[0].getName().equals(path)){
+                return null;
+            }
             for (int i = 0; i < files.length; i++) {
                 node.add(new DefaultMutableTreeNode(files[i].getName()));
             }
@@ -103,6 +106,8 @@ public class FTPConnector {
         }
         return null;
     }
+    
+    
     public DefaultTreeModel getStructure() {
         if (ftpClient.isConnected()) { 
         return new DefaultTreeModel(getAllNodes("", "/"));    

@@ -7,11 +7,14 @@ package allcreate;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
 /**
@@ -59,20 +62,29 @@ public class Main extends javax.swing.JFrame {
         }
     }
 
-    void doMouseClicked(MouseEvent me) {
-    TreePath tp = jTreeFTP.getPathForLocation(me.getX(), me.getY());
-    DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp.getLastPathComponent();
-    String path = tp.toString();
-    path = path.replace("/", "");
-    path = path.replaceAll(" ", "");
-    path = path.replaceAll(",", "/");
-    path = path.replace("[", "");
-    path = path.replace("]", "");
+    public void doMouseClicked(MouseEvent me) {
+        TreePath tp = jTreeFTP.getPathForLocation(me.getX(), me.getY());
+        if (tp != null) {
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp.getLastPathComponent();
+            String path = tp.toString();
+            path = path.replaceAll("\\]|\\[|", "").replaceAll(",", "/").replace("//", "/").replace("/ ", "/");
+            DefaultMutableTreeNode newNode = ftpConnector.getNode(path);
+            if (node.getChildCount() == 0 && newNode != null) {
+                addToTreeModel(newNode, node);
+            }
+        }
 
-    System.out.println(path);
-  }
+    }
 
-    
+    private void addToTreeModel(DefaultMutableTreeNode newNode, DefaultMutableTreeNode oldNode) {
+        DefaultTreeModel model = (DefaultTreeModel) jTreeFTP.getModel();
+        for (int i = 0; i < newNode.getChildCount(); i++) {
+            model.insertNodeInto((MutableTreeNode) newNode.getChildAt(i), oldNode, i);
+        }
+        jTreeFTP.setModel(model);
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
