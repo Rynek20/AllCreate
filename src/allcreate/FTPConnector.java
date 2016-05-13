@@ -1,10 +1,15 @@
 package allcreate;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 
@@ -22,6 +27,7 @@ public class FTPConnector {
     private String password;
     private final FTPClient ftpClient;
     private Status status;
+
 
     public FTPConnector() {
         this.ftpClient = new FTPClient();
@@ -107,6 +113,29 @@ public class FTPConnector {
         return null;
     }
     
+    public File getFile(String path){
+        String[] points = path.split("/");
+        if(points.length==0){
+            points = new String[1];
+            points[0]="/";
+        }
+        try {
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+            File f = new File("tmpFiles/"+points[points.length-1]);
+            boolean success;
+            try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(f))) {
+                success = ftpClient.retrieveFile(path, outputStream);
+            }
+            if (success) {
+                System.out.println("File #1 has been downloaded successfully.");
+                return null;
+            }
+            return f;
+        } catch (IOException ex) {
+            Logger.getLogger(FTPConnector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     
     public DefaultTreeModel getStructure() {
         if (ftpClient.isConnected()) { 

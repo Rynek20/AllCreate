@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
@@ -26,11 +27,15 @@ public class Main extends javax.swing.JFrame {
     private final Settings actualSettings;
     private FTPConnector ftpConnector;
     private Timer timer;
+    private String selectedDirectory;
+    private String selectedFile;
 
     public Main() {
         initComponents();
         actualSettings = new Settings();
         ftpConnector = null;
+        selectedDirectory = null;
+        selectedFile = null;
         runTimer();
         jTreeFTP.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
@@ -70,7 +75,13 @@ public class Main extends javax.swing.JFrame {
             path = path.replaceAll("\\]|\\[|", "").replaceAll(",", "/").replace("//", "/").replace("/ ", "/");
             DefaultMutableTreeNode newNode = ftpConnector.getNode(path);
             if (node.getChildCount() == 0 && newNode != null) {
+                this.selectedDirectory = path;
+                this.selectedFile = null;
                 addToTreeModel(newNode, node);
+            }else if(newNode == null){
+                this.selectedFile = path;
+                this.selectedDirectory = path.substring(0, path.lastIndexOf("/"));
+               if(SwingUtilities.isRightMouseButton(me)) ftpConnector.getFile(path);
             }
         }
 
