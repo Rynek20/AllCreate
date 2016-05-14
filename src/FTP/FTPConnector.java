@@ -1,4 +1,4 @@
-package allcreate;
+package FTP;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
