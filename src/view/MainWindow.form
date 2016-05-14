@@ -45,8 +45,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jPanel" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Component id="jButtonFTP" min="-2" pref="80" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="420" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jButtonFTP" max="32767" attributes="0"/>
+                          <Component id="jButtonDodaj" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="389" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -62,7 +65,9 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jButtonFTP" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButtonDodaj" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                       <Component id="jPanel" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
@@ -112,6 +117,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonFTPActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonDodaj">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Dodaj przedmiot"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDodajActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
