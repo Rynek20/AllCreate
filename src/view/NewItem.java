@@ -5,11 +5,8 @@
  */
 package view;
 
-import FTP.Timer;
 import HTTPGenerator.Item;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.image.BufferedImage;
+import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,9 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.activation.MimetypesFileTypeMap;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 
 public class NewItem extends javax.swing.JDialog {
 
@@ -27,6 +22,8 @@ public class NewItem extends javax.swing.JDialog {
     ArrayList<File> imageList;
     Item currentItem;
     String FTPpath;
+    int position[];
+    int maxHeight;
 
     public NewItem(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -35,10 +32,9 @@ public class NewItem extends javax.swing.JDialog {
         imageList = new ArrayList<>();
         currentItem = null;
         FTPpath = "";
-
+        position = new int[]{0, 0};
     }
 
-    
     public Item getItem() {
         return currentItem;
     }
@@ -59,6 +55,7 @@ public class NewItem extends javax.swing.JDialog {
         jTextFieldName = new javax.swing.JTextField();
         jButtonAddImage = new javax.swing.JButton();
         jButtonPath = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -103,7 +100,7 @@ public class NewItem extends javax.swing.JDialog {
                         .addComponent(jButtonAddImage)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonPath)
-                        .addGap(0, 304, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -124,27 +121,29 @@ public class NewItem extends javax.swing.JDialog {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 528, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 237, Short.MAX_VALUE)
+            .addGap(0, 235, Short.MAX_VALUE)
         );
+
+        jScrollPane1.setViewportView(jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonSave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonCancel))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButtonCancel)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -153,7 +152,7 @@ public class NewItem extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCancel)
@@ -189,24 +188,37 @@ public class NewItem extends javax.swing.JDialog {
             System.out.println("Error while opening file");
         }
     }//GEN-LAST:event_jButtonAddImageActionPerformed
-    public void panelRefresh(){
+    public void panelRefresh() {
         jPanel2.removeAll();
-        jPanel2.setLayout(new GridLayout());
-        for(File f : imageList){
+        jPanel2.setPreferredSize(new Dimension(500, 2000)); 
+        position = new int[]{0, 0};
+        maxHeight = 0;
+        for (File f : imageList) {
             showImage(f);
-        } 
+        }
     }
-    private void showImage(File file){
+
+    private void showImage(File file) {
         try {
-            imagePanel imgPanel = new imagePanel(ImageIO.read(file)) ;   
+            imagePanel imgPanel = new imagePanel(ImageIO.read(file));
             jPanel2.add(imgPanel);
+            if (position[0] + imgPanel.getSize().width > jPanel2.getSize().width) {
+                position[1] += maxHeight + 5;
+                position[0]=0;
+            }
+            imgPanel.setLocation(position[0], position[1]);
             imgPanel.setVisible(true);
             jPanel2.validate();
+            position[0] += imgPanel.getSize().width+5;
+            if (maxHeight < imgPanel.getSize().height) {
+                maxHeight = imgPanel.getSize().height;
+            }
+            
         } catch (IOException ex) {
             Logger.getLogger(NewItem.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
         currentItem = new Item();
         currentItem.setName(jTextFieldName.getText());
@@ -265,6 +277,7 @@ public class NewItem extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextFieldName;
     // End of variables declaration//GEN-END:variables
 }

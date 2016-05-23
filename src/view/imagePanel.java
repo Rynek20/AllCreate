@@ -26,9 +26,11 @@ public class imagePanel extends javax.swing.JPanel {
     
     public BufferedImage rescale(BufferedImage originalImage)
     {
-        BufferedImage resizedImage = new BufferedImage(150, 150, BufferedImage.TYPE_INT_RGB);
+        double proportions = (double)originalImage.getWidth()/(double)originalImage.getHeight();
+        BufferedImage resizedImage = new BufferedImage((int)(150*proportions), 150, BufferedImage.TYPE_INT_RGB);
+        this.setSize((int)(150*proportions), 150);
         Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(originalImage, 0, 0, 150, 150, null);
+        g.drawImage(originalImage, 0, 0, (int)(150*proportions), 150, null);
         g.dispose();
         return resizedImage;
     }
