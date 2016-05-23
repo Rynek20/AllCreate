@@ -117,11 +117,13 @@ public class NewItem extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        jPanel2.setAutoscrolls(true);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 528, Short.MAX_VALUE)
+            .addGap(0, 728, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,12 +192,14 @@ public class NewItem extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonAddImageActionPerformed
     public void panelRefresh() {
         jPanel2.removeAll();
-        jPanel2.setPreferredSize(new Dimension(500, 2000)); 
         position = new int[]{0, 0};
         maxHeight = 0;
         for (File f : imageList) {
             showImage(f);
         }
+        jPanel2.setPreferredSize(new Dimension(700, (position[1]+160))); 
+        jScrollPane1.validate();
+        jScrollPane1.repaint();
     }
 
     private void showImage(File file) {
@@ -209,6 +213,7 @@ public class NewItem extends javax.swing.JDialog {
             imgPanel.setLocation(position[0], position[1]);
             imgPanel.setVisible(true);
             jPanel2.validate();
+            jPanel2.repaint();
             position[0] += imgPanel.getSize().width+5;
             if (maxHeight < imgPanel.getSize().height) {
                 maxHeight = imgPanel.getSize().height;
