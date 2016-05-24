@@ -8,6 +8,7 @@ package view;
 import FTP.PanelFTP;
 import HTTPGenerator.Generator;
 import HTTPGenerator.Item;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
@@ -23,7 +24,8 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         generator = new Generator();
         ps = new PathSelect(this, true);
-        jPanelItems.setLayout(null);
+        jPanelItems.setLayout(new GridLayout());
+        jPanelItems.setPreferredSize(new Dimension(600, 400));
     }
 
     /**
