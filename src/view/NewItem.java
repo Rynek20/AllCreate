@@ -84,6 +84,11 @@ public class NewItem extends javax.swing.JDialog {
         });
 
         jButtonPath.setText("Wybierz folder");
+        jButtonPath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPathActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -159,7 +164,7 @@ public class NewItem extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCancel)
                     .addComponent(jButtonSave))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -194,17 +199,17 @@ public class NewItem extends javax.swing.JDialog {
         jPanel2.removeAll();
         position = new int[]{0, 0};
         maxHeight = 0;
-        for (File f : imageList) {
-            showImage(f);
+        for (int i=0;i<imageList.size();i++) {
+            showImage(imageList.get(i),i);
         }
         jPanel2.setPreferredSize(new Dimension(700, (position[1]+160))); 
         jScrollPane1.validate();
         jScrollPane1.repaint();
     }
 
-    private void showImage(File file) {
+    private void showImage(File file, int id) {
         try {
-            imagePanel imgPanel = new imagePanel(ImageIO.read(file));
+            imagePanel imgPanel = new imagePanel(ImageIO.read(file),id,this);
             jPanel2.add(imgPanel);
             if (position[0] + imgPanel.getSize().width > jPanel2.getSize().width) {
                 position[1] += maxHeight + 5;
@@ -223,6 +228,11 @@ public class NewItem extends javax.swing.JDialog {
             Logger.getLogger(NewItem.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void removePanel(int id){
+        imageList.remove(id);
+        panelRefresh();
+    }
 
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
         currentItem = new Item();
@@ -231,6 +241,10 @@ public class NewItem extends javax.swing.JDialog {
         currentItem.setFTPpath(FTPpath);
         this.dispose();
     }//GEN-LAST:event_jButtonSaveActionPerformed
+
+    private void jButtonPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPathActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonPathActionPerformed
 
     /**
      * @param args the command line arguments

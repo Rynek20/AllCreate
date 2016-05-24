@@ -7,21 +7,37 @@ package view;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 
 /**
  *
  * @author adm
  */
-public class imagePanel extends javax.swing.JPanel {
+public class imagePanel extends javax.swing.JPanel implements MouseListener{
 
     private BufferedImage image;
+    private int fotoID;
+    private NewItem parent;
     public imagePanel() {
         initComponents();
     }
-    public imagePanel(BufferedImage image) {
+    public imagePanel(BufferedImage image, int id, NewItem parent) {
         initComponents();
+        this.fotoID = id;
+        this.parent = parent;
         this.image = rescale(image);
+        this.addMouseListener(this);
     }
     
     public BufferedImage rescale(BufferedImage originalImage)
@@ -37,8 +53,13 @@ public class imagePanel extends javax.swing.JPanel {
     
     @Override
     protected void paintComponent(Graphics g){
-        super.paintComponent(g);
-        g.drawImage(image, 0, 0, null);
+        try {
+            super.paintComponent(g);
+            g.drawImage(image, 0, 0, null);
+            g.drawImage(ImageIO.read(new File("x.jpg")), this.getSize().width-20, 5, null);
+        } catch (IOException ex) {
+            Logger.getLogger(imagePanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -65,4 +86,35 @@ public class imagePanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int width = this.getSize().width;
+        if( e.getX()>width-20 && e.getX()<width){
+            if(e.getY()>0 && e.getY()<20){
+                parent.removePanel(fotoID);
+            }
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+       
+    }
 }

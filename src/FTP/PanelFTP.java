@@ -34,6 +34,7 @@ public class PanelFTP extends javax.swing.JPanel {
         selectedFile = null;
         runTimer();
         jTreeFTP.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked(MouseEvent me) {
                 doMouseClicked(me);
             }
@@ -221,6 +222,14 @@ public class PanelFTP extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    public String getSelectedDirectory() {
+        return selectedDirectory;
+    }
+
+    public String getSelectedFile() {
+        return selectedFile;
+    }
 
     private void jButton_ConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ConnectActionPerformed
         try {
