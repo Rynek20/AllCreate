@@ -243,7 +243,9 @@ public class NewItem extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonSaveActionPerformed
 
     private void jButtonPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPathActionPerformed
-        // TODO add your handling code here:
+        PathSelect ps = new PathSelect(null, true);
+        ps.setVisible(true);
+        FTPpath = ps.getSelectedPath();
     }//GEN-LAST:event_jButtonPathActionPerformed
 
     /**

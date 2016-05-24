@@ -40,15 +40,17 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jButtonPath" max="32767" attributes="0"/>
-                  <Component id="jButtonDodaj" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jButtonSettings" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonDodaj" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jButtonGenerate" alignment="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="jPanelItems" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jButtonSettings" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="558" max="32767" attributes="0"/>
+              <EmptySpace pref="189" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -56,26 +58,19 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButtonPath" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButtonSettings" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="jButtonSettings" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jButtonDodaj" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="537" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jButtonGenerate" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPanelItems" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="jButtonPath">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Wybierz folder"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonPathActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JButton" name="jButtonDodaj">
       <Properties>
         <Property name="text" type="java.lang.String" value="Dodaj przedmiot"/>
@@ -89,5 +84,35 @@
         <Property name="text" type="java.lang.String" value="Ustawienia aukcji"/>
       </Properties>
     </Component>
+    <Component class="javax.swing.JButton" name="jButtonGenerate">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Wygeneruj"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGenerateActionPerformed"/>
+      </Events>
+    </Component>
+    <Container class="javax.swing.JPanel" name="jPanelItems">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
+            <EtchetBorder/>
+          </Border>
+        </Property>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="597" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="487" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+    </Container>
   </SubComponents>
 </Form>

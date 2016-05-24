@@ -224,10 +224,22 @@ public class PanelFTP extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     public String getSelectedDirectory() {
+        if(JTextField_Login.getText().equals("szablon@kartalcarpets.pl")){
+            return "http://kartalcarpets.pl/szablony" + selectedDirectory;
+        }
+        if(JTextField_Login.getText().equals("galeria@kartalcarpets.pl")){
+           return "http://kartalcarpets.pl/allegro" + selectedDirectory;
+        }
         return selectedDirectory;
     }
 
     public String getSelectedFile() {
+         if(JTextField_Login.getText().equals("szablon@kartalcarpets.pl")){
+            return "http://kartalcarpets.pl/szablony" + selectedFile;
+        }
+        if(JTextField_Login.getText().equals("galeria@kartalcarpets.pl")){
+            return "http://kartalcarpets.pl/allegro" + selectedFile;
+        }
         return selectedFile;
     }
 

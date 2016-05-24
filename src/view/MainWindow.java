@@ -6,6 +6,7 @@
 package view;
 
 import FTP.PanelFTP;
+import HTTPGenerator.Generator;
 import HTTPGenerator.Item;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -16,12 +17,13 @@ import java.util.ArrayList;
  */
 public class MainWindow extends javax.swing.JFrame {
 
-    ArrayList<Item> itemList;
+    Generator generator;
     PathSelect ps;
     public MainWindow() {
         initComponents();
-        itemList = new ArrayList<>();
+        generator = new Generator();
         ps = new PathSelect(this, true);
+        jPanelItems.setLayout(null);
     }
 
     /**
@@ -34,9 +36,10 @@ public class MainWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButtonPath = new javax.swing.JButton();
         jButtonDodaj = new javax.swing.JButton();
         jButtonSettings = new javax.swing.JButton();
+        jButtonGenerate = new javax.swing.JButton();
+        jPanelItems = new javax.swing.JPanel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -51,13 +54,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButtonPath.setText("Wybierz folder");
-        jButtonPath.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonPathActionPerformed(evt);
-            }
-        });
-
         jButtonDodaj.setText("Dodaj przedmiot");
         jButtonDodaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -67,46 +63,79 @@ public class MainWindow extends javax.swing.JFrame {
 
         jButtonSettings.setText("Ustawienia aukcji");
 
+        jButtonGenerate.setText("Wygeneruj");
+        jButtonGenerate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGenerateActionPerformed(evt);
+            }
+        });
+
+        jPanelItems.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout jPanelItemsLayout = new javax.swing.GroupLayout(jPanelItems);
+        jPanelItems.setLayout(jPanelItemsLayout);
+        jPanelItemsLayout.setHorizontalGroup(
+            jPanelItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 597, Short.MAX_VALUE)
+        );
+        jPanelItemsLayout.setVerticalGroup(
+            jPanelItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 487, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonPath, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonDodaj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonSettings)
-                .addContainerGap(558, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jButtonSettings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonDodaj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonGenerate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanelItems, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(189, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonPath)
-                    .addComponent(jButtonSettings))
+                .addComponent(jButtonSettings)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonDodaj)
-                .addContainerGap(537, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonGenerate)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelItems, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPathActionPerformed
-        ps.setVisible(true);
-        System.out.println(ps.getSelectedFile());
-        System.out.println(ps.getSelectedPath());
-    }//GEN-LAST:event_jButtonPathActionPerformed
-
     private void jButtonDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDodajActionPerformed
         NewItem window = new NewItem(this, true);
         window.setVisible(true);
         Item newItem = window.getItem();
-        itemList.add(newItem);
+        generator.getItemsList().add(newItem);
+        refreshItemsPanel();
     }//GEN-LAST:event_jButtonDodajActionPerformed
+    
+    private void refreshItemsPanel(){
+        for(int i=0;i<generator.getItemsList().size();i++){
+            Item item = generator.getItemsList().get(i);
+            itemPanel ip = new itemPanel(item);
+            ip.setLocation(0, 70*i);
+            ip.setVisible(true);
+            jPanelItems.add(ip);
+        }
+        jPanelItems.validate();
+        jPanelItems.repaint();
+    }
+    private void jButtonGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonGenerateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -145,8 +174,9 @@ public class MainWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDodaj;
-    private javax.swing.JButton jButtonPath;
+    private javax.swing.JButton jButtonGenerate;
     private javax.swing.JButton jButtonSettings;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelItems;
     // End of variables declaration//GEN-END:variables
 }
