@@ -136,7 +136,8 @@ public class MainWindow extends javax.swing.JFrame {
         jPanelItems.repaint();
     }
     private void jButtonGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerateActionPerformed
-        // TODO add your handling code here:
+        GenerateWindow gw = new GenerateWindow(this, true);
+        gw.setVisible(true);
     }//GEN-LAST:event_jButtonGenerateActionPerformed
 
     /**
