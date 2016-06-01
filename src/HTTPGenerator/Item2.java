@@ -4,8 +4,9 @@ package HTTPGenerator;
 public class Item2 {
     private String name;
     private String model;
+    private String folder;
+    private String patternPath;
     private String path;
-    private String path2;
 
     public String getName() {
         return name;
@@ -23,6 +24,22 @@ public class Item2 {
         this.model = model;
     }
 
+    public String getFolder() {
+        return folder;
+    }
+
+    public void setFolder(String folder) {
+        this.folder = folder;
+    }
+
+    public String getPatternPath() {
+        return patternPath;
+    }
+
+    public void setPatternPath(String patternPath) {
+        this.patternPath = patternPath;
+    }
+
     public String getPath() {
         return path;
     }
@@ -31,12 +48,6 @@ public class Item2 {
         this.path = path;
     }
 
-    public String getPath2() {
-        return path2;
-    }
-
-    public void setPath2(String path2) {
-        this.path2 = path2;
-    }
+   
     
 }
